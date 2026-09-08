@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 68" width="320" height="68" fill="none">
+  <defs>
+    <linearGradient id="risk-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="shield-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#161b26"/>
+      <stop offset="100%" stop-color="#0e131d"/>
+    </linearGradient>
+  </defs>
+  <!-- Cyber Resilience Hex/Shield Icon -->
+  <g transform="translate(6, 10)">
+    <rect width="48" height="48" rx="12" fill="url(#shield-bg)" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+    <path d="M24 16l11 4.5v7.5c0 7.2-4.8 12.8-11 14.5-6.2-1.7-11-7.3-11-14.5v-7.5L24 16z" stroke="url(#risk-grad)" stroke-width="2" fill="none" stroke-linejoin="round"/>
+    <path d="M20 28l3 3 6-6" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="24" cy="16" r="1.5" fill="#34d399"/>
+  </g>
+  <!-- Typography -->
+  <text x="68" y="34" fill="#ffffff" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif" font-size="21" font-weight="800" letter-spacing="-0.03em">Risk<tspan fill="#34d399">IT</tspan></text>
+  <text x="68" y="49" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="500" letter-spacing="0.14em">ENTERPRISE RISK INTELLIGENCE</text>
+</svg>

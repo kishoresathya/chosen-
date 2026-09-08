@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 68" width="340" height="68" fill="none">
+  <defs>
+    <linearGradient id="tk-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+    <linearGradient id="tk-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+  <!-- Modern Icon Monogram -->
+  <g transform="translate(6, 10)">
+    <rect width="48" height="48" rx="12" fill="#121622" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+    <path d="M16 18h16M24 18v16" stroke="url(#tk-grad)" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M26 26l8-8M26 26l8 8" stroke="url(#tk-accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="34" cy="18" r="1.5" fill="#38bdf8"/>
+  </g>
+  <!-- Typography -->
+  <text x="68" y="34" fill="#ffffff" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif" font-size="20" font-weight="700" letter-spacing="-0.02em">Tharun Kumar</text>
+  <text x="68" y="49" fill="#94a3b8" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="500" letter-spacing="0.14em">VENTURE STUDIO &amp; OFFICE</text>
+</svg>
