@@ -12,6 +12,26 @@ export const HeroSection: React.FC = () => {
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '10%']);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0.2]);
 
+  // Exclusive ticker phrases as instructed by the user
+  const tickerItems = [
+    { text: '✦ RISKIT', color: '#34d399' },
+    { text: '✦ ACTIVE PIPELINE', color: 'var(--text-muted)' },
+    { text: '✦ BUILT TO LAST', color: '#ffffff' },
+    { text: '✦ NO FIXED TIMELINE', color: '#38bdf8' },
+    { text: '✦ WE HELP BUILD', color: 'var(--text-muted)' },
+    { text: '✦ 100% SELF-FUNDED', color: '#34d399' },
+    { text: '✦ FOUNDED & RUN BY CHOSEN', color: '#ffffff' },
+    { text: '✦ LONG-TERM OWNERSHIP', color: '#38bdf8' },
+    { text: '✦ ZERO OUTSIDE CAPITAL', color: '#34d399' },
+    { text: '✦ CHENNAI, INDIA', color: 'var(--text-muted)' },
+    { text: '✦ BUILDING SINCE DAY ONE', color: '#ffffff' },
+    { text: '✦ FULLY OWNED', color: '#34d399' },
+    { text: '✦ ONE COMPANY AT A TIME', color: 'var(--text-muted)' },
+    { text: '✦ HANDS-ON, ALWAYS', color: '#ffffff' },
+    { text: '✦ NO OUTSIDE FOUNDERS', color: '#38bdf8' },
+    { text: '✦ IN-HOUSE, END TO END', color: '#34d399' },
+  ];
+
   return (
     <section 
       id="hero"
@@ -72,16 +92,16 @@ export const HeroSection: React.FC = () => {
         }}
       />
 
-      {/* Main Content Area: Centered, Elevated Hierarchy */}
+      {/* Main Content Area: Centered, Grand Institutional Statement */}
       <div 
         className="container" 
         style={{ 
           position: 'relative', 
           zIndex: 2, 
-          maxWidth: '1280px',
+          maxWidth: '1440px',
           width: '100%',
           margin: '0 auto',
-          padding: '0 1.5rem',
+          padding: '0 clamp(1.5rem, 5vw, 4rem)',
           flex: '1 0 auto',
           display: 'flex',
           flexDirection: 'column',
@@ -91,8 +111,8 @@ export const HeroSection: React.FC = () => {
       >
         <motion.div 
           style={{ 
-            maxWidth: '960px', 
-            margin: '0 auto', 
+            maxWidth: '1280px', 
+            width: '100%',
             textAlign: 'center',
             display: 'flex',
             flexDirection: 'column',
@@ -103,19 +123,19 @@ export const HeroSection: React.FC = () => {
         >
           {/* Kicker Pill Badge */}
           <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 14, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.6rem',
-              padding: '0.42rem 1.15rem',
+              padding: '0.45rem 1.25rem',
               borderRadius: '9999px',
               backgroundColor: 'rgba(12, 16, 24, 0.75)',
               border: '1px solid rgba(52, 211, 153, 0.3)',
               backdropFilter: 'blur(12px)',
-              marginBottom: '1.75rem',
+              marginBottom: '2rem',
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)',
             }}
           >
@@ -139,114 +159,57 @@ export const HeroSection: React.FC = () => {
                 fontWeight: 500,
               }}
             >
-              Private Software Holding Company
+              The Parent Company
             </span>
           </motion.div>
 
-          {/* Majestic Editorial Headline */}
+          {/* Majestic Grand Headline: Centered & Extra Massive */}
           <motion.h1
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             style={{
               fontFamily: "var(--font-heading)",
-              fontSize: 'clamp(2.4rem, 5.2vw, 4.4rem)',
+              fontSize: 'clamp(3.6rem, 7.8vw, 7rem)',
               fontWeight: 500,
-              lineHeight: 1.12,
-              letterSpacing: '-0.03em',
+              lineHeight: 1.08,
+              letterSpacing: '-0.04em',
               color: '#ffffff',
-              margin: '0 0 1.65rem',
-              maxWidth: '920px',
+              margin: '0 auto 2.2rem',
+              maxWidth: '1240px',
               textWrap: 'balance',
+              textAlign: 'center',
               textShadow: '0 4px 32px rgba(0, 0, 0, 0.95), 0 0 60px rgba(0, 0, 0, 0.85)',
             }}
           >
-            Chosen backs software companies{' '}
-            <span
-              style={{
-                fontFamily: "'Instrument Serif', serif",
-                fontStyle: 'italic',
-                fontWeight: 400,
-                fontSize: '1.08em',
-                color: '#ffffff',
-              }}
-            >
-              built to last,
-            </span>{' '}
-            not to exit.
+            Chosen isn&apos;t just a name.
+            <br />
+            It&apos;s a mission statement.
           </motion.h1>
 
           {/* Clean Subtext */}
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              fontSize: 'clamp(1.05rem, 1.6vw, 1.22rem)',
-              lineHeight: 1.65,
+              fontSize: 'clamp(1.15rem, 2vw, 1.45rem)',
+              lineHeight: 1.6,
               letterSpacing: '-0.012em',
-              maxWidth: '56ch',
-              margin: '0 auto 2.75rem',
+              maxWidth: '58ch',
+              margin: '0 auto',
               color: 'var(--text-secondary)',
               fontWeight: 400,
+              textAlign: 'center',
               textShadow: '0 2px 20px rgba(0, 0, 0, 0.95)',
             }}
           >
-            We&apos;re a small holding company. We put in capital, stay involved, and don&apos;t have a timeline to sell.
+            Many companies, one name behind all of them — Chosen, from the very first day.
           </motion.p>
-
-          {/* Centered Actions */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            style={{ 
-              display: 'flex', 
-              flexWrap: 'wrap', 
-              gap: '1rem', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              marginBottom: 'clamp(2.5rem, 6vh, 4rem)',
-            }}
-          >
-            <motion.a 
-              href="#portfolio" 
-              className="btn-primary"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              style={{
-                borderRadius: '9999px',
-                padding: '0.85rem 2.1rem',
-                fontSize: '0.92rem',
-                boxShadow: '0 8px 24px rgba(255, 255, 255, 0.15), 0 0 30px rgba(52, 211, 153, 0.25)',
-              }}
-            >
-              View Portfolio (2)
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                <path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </motion.a>
-            <motion.a 
-              href="#thesis" 
-              className="btn-secondary"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              style={{
-                borderRadius: '9999px',
-                padding: '0.85rem 2.1rem',
-                fontSize: '0.92rem',
-                background: 'rgba(12, 16, 24, 0.75)',
-                border: '1px solid rgba(255, 255, 255, 0.16)',
-                backdropFilter: 'blur(12px)',
-              }}
-            >
-              Why We Invest
-            </motion.a>
-          </motion.div>
         </motion.div>
       </div>
 
-      {/* Full-Bleed Continuous Marquee Ribbon (Structural Edge Anchor) */}
+      {/* Full-Bleed Continuous Marquee Ribbon (Running Only User Specified Names) */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -263,31 +226,27 @@ export const HeroSection: React.FC = () => {
           backdropFilter: 'blur(12px)',
         }}
       >
-        <div className="marquee-track">
-          {[...Array(2)].map((_, i) => (
+        <div className="marquee-track" style={{ animation: 'marquee-scroll 45s linear infinite' }}>
+          {[...Array(2)].map((_, groupIdx) => (
             <div 
-              key={i} 
+              key={groupIdx} 
               style={{ 
                 display: 'flex', 
                 alignItems: 'center', 
-                gap: '3rem',
-                paddingRight: '3rem',
+                gap: '3.25rem',
+                paddingRight: '3.25rem',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.78rem',
                 letterSpacing: '0.12em',
-                color: 'var(--text-muted)',
                 textTransform: 'uppercase',
                 whiteSpace: 'nowrap',
               }}
             >
-              <span style={{ color: '#ffffff' }}>✦ Tharun Kumar (Personal Studio)</span>
-              <span style={{ color: '#34d399' }}>✦ RiskIT (Cyber Security)</span>
-              <span>✦ Active Pipeline</span>
-              <span style={{ color: '#ffffff' }}>✦ Built to Last</span>
-              <span style={{ color: '#38bdf8' }}>✦ No Fixed Timeline</span>
-              <span>✦ We Help Build</span>
-              <span style={{ color: '#34d399' }}>✦ Long-Term Compounding</span>
-              <span>✦ Private Holding Company</span>
+              {tickerItems.map((item, idx) => (
+                <span key={idx} style={{ color: item.color }}>
+                  {item.text}
+                </span>
+              ))}
             </div>
           ))}
         </div>
@@ -305,4 +264,3 @@ export const HeroSection: React.FC = () => {
     </section>
   );
 };
-

@@ -1,663 +1,454 @@
 import React, { useState } from 'react';
-import { ChosenLogo } from './ChosenLogo';
+import { useSmoothScroll } from '../hooks/useSmoothScroll';
 
-export const FooterSection: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: '',
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [privacyModalOpen, setPrivacyModalOpen] = useState(false);
+interface FooterSectionProps {
+  onOpenContact?: () => void;
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
-    setSubmitted(true);
-  };
+export const FooterSection: React.FC<FooterSectionProps> = ({ onOpenContact }) => {
+  const [activeModal, setActiveModal] = useState<null | 'privacy' | 'terms'>(null);
+  const { scrollTo } = useSmoothScroll();
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  // Actual businesses operated by Chosen
+  const businesses = [
+    { name: 'Tharun Kumar Media', href: 'https://tharunkumar.co/', external: true },
+    { name: 'RiskIT', href: 'https://riskit.co.in/#apply', external: true },
+  ];
 
   return (
-    <footer
-      id="footer"
-      style={{
-        position: 'relative',
-        backgroundColor: '#07080b',
-        borderTop: '1px solid rgba(255, 255, 255, 0.06)',
-        padding: '5rem 0 3rem',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Ambient background glow matching Chosen palette */}
+    <footer id="footer" style={{ position: 'relative', width: '100%' }}>
+      {/* Top Tier: Clean Multi-Column Corporate Layout (Exact Eternal Benchmark) */}
       <div
         style={{
-          position: 'absolute',
-          top: '20%',
-          right: '8%',
-          width: '550px',
-          height: '550px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(52, 211, 153, 0.04) 0%, transparent 70%)',
-          pointerEvents: 'none',
-          zIndex: 0,
+          backgroundColor: '#090b10',
+          borderTop: '1px solid rgba(255, 255, 255, 0.07)',
+          padding: 'clamp(4.5rem, 8vh, 6.5rem) 0 clamp(4rem, 7vh, 5.5rem)',
         }}
-      />
-
-      <div className="container" style={{ maxWidth: '1240px', position: 'relative', zIndex: 1 }}>
-        {/* Full-Bleed 2-Column Contact Stage — Perfectly Aligned */}
+      >
         <div
+          className="container footer-grid-stage"
           style={{
+            maxWidth: '1360px',
+            margin: '0 auto',
+            padding: '0 clamp(1.5rem, 5vw, 4.5rem)',
             display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1.15fr)',
-            gap: '3.5rem',
-            alignItems: 'stretch',
-            marginBottom: '4.5rem',
+            gridTemplateColumns: 'minmax(0, 1.8fr) minmax(0, 1.2fr) minmax(0, 1.2fr)',
+            gap: 'clamp(2.5rem, 5vw, 5rem)',
+            alignItems: 'flex-start',
           }}
-          className="contact-stage"
         >
-          {/* LEFT SIDE: Contact Form */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              maxWidth: '500px',
-              width: '100%',
-            }}
-            className="contact-form-column"
-          >
-            <div>
-              {/* CONTACT US Heading */}
-              <h2
+          {/* Left: Chosen Brand Identity (Logo Icon + 'chosen' Wordmark) */}
+          <div>
+            <a
+              href="#hero"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollTo('#hero', { duration: 1.2 });
+              }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.9rem',
+                textDecoration: 'none',
+                transition: 'opacity 0.2s ease, transform 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '0.85';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = '1';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+              aria-label="Chosen Homepage"
+            >
+              {/* Hexagonal Chosen Emblem with Green Center */}
+              <svg 
+                width="38" 
+                height="38" 
+                viewBox="0 0 32 32" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+                style={{
+                  flexShrink: 0,
+                  display: 'block',
+                  transform: 'translateY(4px)',
+                }}
+              >
+                {/* Outer Hexagon */}
+                <path 
+                  d="M16 3L27 9.5V22.5L16 29L5 22.5V9.5L16 3Z" 
+                  stroke="#ffffff" 
+                  strokeWidth="2" 
+                  strokeLinejoin="round"
+                />
+                {/* Internal Geometry Spokes */}
+                <path 
+                  d="M16 3V29M5 9.5L27 22.5M5 22.5L27 9.5" 
+                  stroke="rgba(255, 255, 255, 0.35)" 
+                  strokeWidth="1.2" 
+                />
+                {/* Mint Emerald Center */}
+                <circle cx="16" cy="16" r="3.2" fill="#00e599" />
+              </svg>
+
+              <span
                 style={{
                   fontFamily: 'var(--font-heading)',
-                  fontSize: 'clamp(2.1rem, 3.8vw, 3rem)',
-                  fontWeight: 700,
-                  letterSpacing: '0.04em',
+                  fontSize: 'clamp(2.4rem, 4vw, 3.2rem)',
+                  fontWeight: 800,
+                  letterSpacing: '-0.04em',
                   color: '#ffffff',
-                  textTransform: 'uppercase',
-                  margin: '0 0 0.4rem',
-                  lineHeight: 1.1,
+                  lineHeight: 1,
+                  display: 'inline-block',
                 }}
               >
-                Contact Us
-              </h2>
+                chosen
+              </span>
+            </a>
+          </div>
 
-              {/* DROP A MESSAGE with underline indicator */}
-              <div style={{ marginBottom: '2rem' }}>
-                <span
-                  style={{
-                    display: 'inline-block',
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: '0.84rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    color: '#34d399',
-                    borderBottom: '2.5px solid #34d399',
-                    paddingBottom: '4px',
-                  }}
-                >
-                  Drop a message
-                </span>
-              </div>
-
-              {/* Input Form Fields */}
-              {submitted ? (
-                <div
-                  style={{
-                    padding: '2rem',
-                    borderRadius: '14px',
-                    background: 'rgba(52, 211, 153, 0.08)',
-                    border: '1px solid rgba(52, 211, 153, 0.35)',
-                  }}
-                >
-                  <h3 style={{ fontSize: '1.2rem', color: '#ffffff', marginBottom: '0.5rem', fontWeight: 600 }}>
-                    ✓ Message Sent to Tharun
-                  </h3>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.5, margin: 0 }}>
-                    Thanks for reaching out. Tharun reads every note himself and will reply to <strong>{formData.email}</strong> within 2 days.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSubmitted(false);
-                      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-                    }}
+          {/* Column 1: Our businesses */}
+          <div>
+            <h4
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: '0.98rem',
+                fontWeight: 600,
+                color: '#ffffff',
+                letterSpacing: '-0.01em',
+                margin: '0 0 1.5rem',
+                lineHeight: 1.2,
+              }}
+            >
+              Our businesses
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.95rem' }}>
+              {businesses.map((b) => (
+                <li key={b.name}>
+                  <a
+                    href={b.href}
+                    target={b.external ? '_blank' : undefined}
+                    rel={b.external ? 'noopener noreferrer' : undefined}
                     style={{
-                      marginTop: '1.25rem',
-                      background: 'transparent',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      color: '#ffffff',
-                      padding: '0.55rem 1.2rem',
-                      borderRadius: '9999px',
-                      fontSize: '0.85rem',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Send another note
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                  {/* Full Name* */}
-                  <input
-                    type="text"
-                    required
-                    placeholder="Full Name*"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    style={{
-                      width: '100%',
-                      padding: '0.85rem 1.15rem',
-                      borderRadius: '8px',
-                      background: 'rgba(255, 255, 255, 0.03)',
-                      border: '1px solid rgba(255, 255, 255, 0.09)',
-                      color: '#ffffff',
-                      fontSize: '0.92rem',
-                      outline: 'none',
-                      transition: 'all 0.2s ease',
-                    }}
-                    onFocus={(e) => {
-                      e.currentTarget.style.borderColor = '#34d399';
-                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(52, 211, 153, 0.15)';
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.09)';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
-                  />
-
-                  {/* Email* */}
-                  <input
-                    type="email"
-                    required
-                    placeholder="Email*"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    style={{
-                      width: '100%',
-                      padding: '0.85rem 1.15rem',
-                      borderRadius: '8px',
-                      background: 'rgba(255, 255, 255, 0.03)',
-                      border: '1px solid rgba(255, 255, 255, 0.09)',
-                      color: '#ffffff',
-                      fontSize: '0.92rem',
-                      outline: 'none',
-                      transition: 'all 0.2s ease',
-                    }}
-                    onFocus={(e) => {
-                      e.currentTarget.style.borderColor = '#34d399';
-                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(52, 211, 153, 0.15)';
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.09)';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
-                  />
-
-                  {/* Phone* */}
-                  <input
-                    type="text"
-                    placeholder="Phone*"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    style={{
-                      width: '100%',
-                      padding: '0.85rem 1.15rem',
-                      borderRadius: '8px',
-                      background: 'rgba(255, 255, 255, 0.03)',
-                      border: '1px solid rgba(255, 255, 255, 0.09)',
-                      color: '#ffffff',
-                      fontSize: '0.92rem',
-                      outline: 'none',
-                      transition: 'all 0.2s ease',
-                    }}
-                    onFocus={(e) => {
-                      e.currentTarget.style.borderColor = '#34d399';
-                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(52, 211, 153, 0.15)';
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.09)';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
-                  />
-
-                  {/* Subject* */}
-                  <input
-                    type="text"
-                    placeholder="Subject*"
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    style={{
-                      width: '100%',
-                      padding: '0.85rem 1.15rem',
-                      borderRadius: '8px',
-                      background: 'rgba(255, 255, 255, 0.03)',
-                      border: '1px solid rgba(255, 255, 255, 0.09)',
-                      color: '#ffffff',
-                      fontSize: '0.92rem',
-                      outline: 'none',
-                      transition: 'all 0.2s ease',
-                    }}
-                    onFocus={(e) => {
-                      e.currentTarget.style.borderColor = '#34d399';
-                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(52, 211, 153, 0.15)';
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.09)';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
-                  />
-
-                  {/* Message* */}
-                  <textarea
-                    required
-                    rows={4}
-                    placeholder="Message*"
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    style={{
-                      width: '100%',
-                      padding: '0.85rem 1.15rem',
-                      borderRadius: '8px',
-                      background: 'rgba(255, 255, 255, 0.03)',
-                      border: '1px solid rgba(255, 255, 255, 0.09)',
-                      color: '#ffffff',
-                      fontSize: '0.92rem',
-                      outline: 'none',
-                      resize: 'vertical',
-                      fontFamily: 'inherit',
-                      transition: 'all 0.2s ease',
-                    }}
-                    onFocus={(e) => {
-                      e.currentTarget.style.borderColor = '#34d399';
-                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(52, 211, 153, 0.15)';
-                    }}
-                    onBlur={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.09)';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
-                  />
-
-                  {/* SUBMIT Button */}
-                  <button
-                    type="submit"
-                    style={{
-                      marginTop: '0.5rem',
-                      width: '100%',
-                      padding: '0.95rem',
-                      borderRadius: '9999px',
-                      background: '#34d399',
-                      color: '#07080b',
-                      border: 'none',
-                      fontFamily: 'var(--font-heading)',
-                      fontSize: '0.92rem',
-                      fontWeight: 700,
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      cursor: 'pointer',
-                      boxShadow: '0 8px 24px rgba(52, 211, 153, 0.35)',
-                      transition: 'all 0.2s ease',
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '0.94rem',
+                      color: 'rgba(255, 255, 255, 0.58)',
+                      textDecoration: 'none',
+                      display: 'inline-block',
+                      transition: 'color 0.18s ease, transform 0.18s ease',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#4ee4ac';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 12px 30px rgba(52, 211, 153, 0.5)';
+                      e.currentTarget.style.color = '#34d399';
+                      e.currentTarget.style.transform = 'translateX(2px)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = '#34d399';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(52, 211, 153, 0.35)';
+                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.58)';
+                      e.currentTarget.style.transform = 'translateX(0)';
                     }}
                   >
-                    Submit
-                  </button>
-                </form>
-              )}
-            </div>
+                    {b.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* RIGHT SIDE: 3D Rotary Dialer (Aligned with Form) + Email & Social Media Info */}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              position: 'relative',
-              width: '100%',
-            }}
-            className="contact-right-visual"
-          >
-            {/* Open 3D Rotary Dialer with Floor Shadows — Aligned With Form Fields */}
-            <div
+          {/* Column 2: More info (Consolidating About and Get in touch into single column) */}
+          <div>
+            <h4
               style={{
-                position: 'relative',
-                width: '100%',
-                maxWidth: '620px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: '1.5rem',
+                fontFamily: 'var(--font-heading)',
+                fontSize: '0.98rem',
+                fontWeight: 600,
+                color: '#ffffff',
+                letterSpacing: '-0.01em',
+                margin: '0 0 1.5rem',
+                lineHeight: 1.2,
               }}
             >
-              {/* Deep contact shadow on floor directly beneath the telephone base & cord */}
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '12%',
-                  left: '12%',
-                  width: '74%',
-                  height: '45px',
-                  borderRadius: '50%',
-                  background: 'radial-gradient(ellipse at center, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.7) 45%, transparent 75%)',
-                  filter: 'blur(12px)',
-                  pointerEvents: 'none',
-                  zIndex: 0,
-                }}
-              />
-              {/* Extended soft ambient ground shadow spreading leftward under the spiraling cord */}
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '8%',
-                  left: '6%',
-                  width: '84%',
-                  height: '70px',
-                  borderRadius: '50%',
-                  background: 'radial-gradient(ellipse at 42% 50%, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.35) 55%, transparent 80%)',
-                  filter: 'blur(20px)',
-                  pointerEvents: 'none',
-                  zIndex: 0,
-                }}
-              />
-
-              {/* Transparent PNG 3D Rotary Dialer: No bounding box, No border, No card! */}
-              <img
-                src="/images/contact-dialer-3d.png"
-                alt="3D Rotary Dialer Phone and Message Bubble"
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  display: 'block',
-                  position: 'relative',
-                  zIndex: 1,
-                  background: 'transparent',
-                  border: 'none',
-                  borderRadius: 0,
-                  boxShadow: 'none',
-                  filter: 'drop-shadow(0 20px 30px rgba(0, 0, 0, 0.8))',
-                }}
-              />
-            </div>
-
-            {/* Bottom Right Email & Social Media Coordinates (Aligned with Submit Button) */}
-            <div
-              style={{
-                marginTop: '1.75rem',
-                width: '100%',
-                maxWidth: '580px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-end',
-                textAlign: 'right',
-                position: 'relative',
-                zIndex: 2,
-              }}
-            >
-              {/* Email with Pin Icon */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
+              More info
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.95rem' }}>
+              {/* Founders link */}
+              <li>
                 <a
-                  href="mailto:contact@chosen.com"
+                  href="#founders"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollTo('#founders', { duration: 1.2 });
+                  }}
                   style={{
-                    color: '#ffffff',
-                    fontWeight: 600,
+                    fontFamily: 'var(--font-sans)',
                     fontSize: '0.94rem',
+                    color: 'rgba(255, 255, 255, 0.58)',
                     textDecoration: 'none',
-                    letterSpacing: '-0.01em',
-                    transition: 'color 0.2s ease',
+                    display: 'inline-block',
+                    transition: 'color 0.18s ease, transform 0.18s ease',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = '#34d399')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = '#ffffff')}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = '#34d399';
+                    e.currentTarget.style.transform = 'translateX(2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'rgba(255, 255, 255, 0.58)';
+                    e.currentTarget.style.transform = 'translateX(0)';
+                  }}
                 >
-                  contact@chosen.com
+                  Founders
                 </a>
-              </div>
+              </li>
 
-              <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '3px' }}>
-                Replies within 2 days • Direct founder review
-              </div>
-
-              {/* Social Media Links Neatly Placed Below the Email */}
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '1.25rem',
-                  marginTop: '0.85rem',
-                }}
-              >
-                {/* Twitter / X */}
-                <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="X Twitter"
+              {/* Contact link */}
+              <li>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onOpenContact) {
+                      onOpenContact();
+                    } else {
+                      window.dispatchEvent(new CustomEvent('open-contact'));
+                    }
+                  }}
                   style={{
-                    color: 'var(--text-muted)',
-                    transition: 'all 0.2s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '0.94rem',
+                    color: 'rgba(255, 255, 255, 0.58)',
+                    cursor: 'pointer',
+                    display: 'inline-block',
+                    transition: 'color 0.18s ease, transform 0.18s ease',
+                    textAlign: 'left',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = '#34d399')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
-                >
-                  <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                  </svg>
-                </a>
-
-                {/* GitHub */}
-                <a
-                  href="https://github.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub"
-                  style={{
-                    color: 'var(--text-muted)',
-                    transition: 'all 0.2s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = '#34d399';
+                    e.currentTarget.style.transform = 'translateX(2px)';
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = '#34d399')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
-                >
-                  <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-                  </svg>
-                </a>
-
-                {/* LinkedIn */}
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn"
-                  style={{
-                    color: 'var(--text-muted)',
-                    transition: 'all 0.2s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'rgba(255, 255, 255, 0.58)';
+                    e.currentTarget.style.transform = 'translateX(0)';
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = '#34d399')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
                 >
-                  <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76c-.95 0-1.72-.77-1.72-1.72s.77-1.72 1.72-1.72 1.72.77 1.72 1.72-.77 1.72-1.72 1.72m1.39 9.74v-8.37H5.07v8.37h2.78z" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Lower Legal & Navigation Bar */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '2rem',
-            paddingTop: '2.5rem',
-            borderTop: '1px solid rgba(255, 255, 255, 0.07)',
-          }}
-        >
-          {/* Logo & Copyright */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
-            <ChosenLogo height={28} />
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-              © {new Date().getFullYear()} Chosen. All rights reserved.
-            </span>
-          </div>
-
-          {/* Legal Links & Back to Top */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-            <button
-              type="button"
-              onClick={() => setPrivacyModalOpen(true)}
-              className="interactive-link"
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: 0,
-                fontSize: '0.85rem',
-                color: 'var(--text-secondary)',
-                cursor: 'pointer',
-              }}
-            >
-              Privacy Policy &amp; Disclosures
-            </button>
-
-            <button
-              type="button"
-              onClick={scrollToTop}
-              className="interactive-link"
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: 0,
-                fontSize: '0.85rem',
-                color: 'var(--text-muted)',
-                cursor: 'pointer',
-              }}
-            >
-              Back to top ↑
-            </button>
+                  Contact
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
 
-      {/* Privacy Policy Modal */}
-      {privacyModalOpen && (
+      {/* Bottom Tier: Left-Aligned Copyright & Legal Links (Exact Eternal Benchmark) */}
+      <div
+        style={{
+          backgroundColor: '#06070a',
+          borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+          padding: '2.25rem 0',
+        }}
+      >
+        <div
+          className="container"
+          style={{
+            maxWidth: '1360px',
+            margin: '0 auto',
+            padding: '0 clamp(1.5rem, 5vw, 4.5rem)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'clamp(1.75rem, 3vw, 3rem)',
+            flexWrap: 'wrap',
+          }}
+        >
+          {/* © 2026 Chosen Ltd. */}
+          <span
+            style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.85rem',
+              color: 'rgba(255, 255, 255, 0.42)',
+              letterSpacing: '-0.01em',
+            }}
+          >
+            © 2026 Chosen Ltd.
+          </span>
+
+          {/* Privacy policy */}
+          <button
+            type="button"
+            onClick={() => setActiveModal('privacy')}
+            style={{
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.85rem',
+              color: 'rgba(255, 255, 255, 0.42)',
+              cursor: 'pointer',
+              letterSpacing: '-0.01em',
+              transition: 'color 0.18s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.42)')}
+          >
+            Privacy policy
+          </button>
+
+          {/* Terms */}
+          <button
+            type="button"
+            onClick={() => setActiveModal('terms')}
+            style={{
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.85rem',
+              color: 'rgba(255, 255, 255, 0.42)',
+              cursor: 'pointer',
+              letterSpacing: '-0.01em',
+              transition: 'color 0.18s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.42)')}
+          >
+            Terms
+          </button>
+        </div>
+      </div>
+
+      {/* Clean Interactive Modals for Legal / Direct Contact */}
+      {activeModal && (
         <div
           style={{
             position: 'fixed',
             inset: 0,
-            zIndex: 999,
+            zIndex: 9999,
             backgroundColor: 'rgba(0, 0, 0, 0.85)',
-            backdropFilter: 'blur(8px)',
+            backdropFilter: 'blur(10px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             padding: '1.5rem',
           }}
-          onClick={() => setPrivacyModalOpen(false)}
+          onClick={() => setActiveModal(null)}
         >
           <div
             style={{
               backgroundColor: '#0e111a',
-              border: '1px solid var(--border-light)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
               borderRadius: '20px',
-              maxWidth: '620px',
+              maxWidth: '560px',
               width: '100%',
               padding: '2.5rem',
-              color: 'var(--text-primary)',
-              maxHeight: '85vh',
-              overflowY: 'auto',
+              color: '#ffffff',
+              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.9)',
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 700 }}>
-                Privacy Policy &amp; Regulatory Disclosures
-              </h3>
-              <button
-                type="button"
-                onClick={() => setPrivacyModalOpen(false)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--text-muted)',
-                  fontSize: '1.4rem',
-                  cursor: 'pointer',
-                }}
-              >
-                ✕
-              </button>
-            </div>
+            {activeModal === 'privacy' && (
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>
+                    Privacy Policy
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={() => setActiveModal(null)}
+                    style={{ background: 'none', border: 'none', color: 'rgba(255, 255, 255, 0.5)', fontSize: '1.4rem', cursor: 'pointer' }}
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.92rem', lineHeight: 1.65, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <p>
+                    Chosen Ltd. values privacy and discretion. We do not sell, rent, or monetize personal data or correspondence.
+                  </p>
+                  <p>
+                    Direct correspondence received through <code>contact@chosen.com</code> is used solely to evaluate potential partnerships, venture stewardship, or executive inquiries.
+                  </p>
+                  <p>
+                    Any telemetry or analytical cookies used on this site are non-invasive and intended solely to maintain optimal system performance.
+                  </p>
+                </div>
+                <div style={{ marginTop: '1.75rem', display: 'flex', justifyContent: 'flex-end' }}>
+                  <button
+                    type="button"
+                    onClick={() => setActiveModal(null)}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      color: '#ffffff',
+                      border: 'none',
+                      borderRadius: '9999px',
+                      padding: '0.55rem 1.4rem',
+                      fontSize: '0.86rem',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
 
-            <div style={{ fontSize: '0.92rem', lineHeight: 1.6, color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <p>
-                <strong>Information Collection:</strong> Chosen collects correspondence and contact information provided voluntarily by founders and partners through direct contact.
-              </p>
-              <p>
-                <strong>Confidentiality:</strong> Any product documentation, code repositories, or metrics submitted to Chosen are kept strictly confidential.
-              </p>
-              <p>
-                <strong>Regulatory Notice:</strong> Content provided on this website is for informational purposes only and does not constitute an offer to buy or sell securities. Chosen operates as an independent private holding company.
-              </p>
-              <p>
-                <strong>Inquiries:</strong> If you have any questions or privacy inquiries, contact us directly at <code>contact@chosen.com</code>.
-              </p>
-            </div>
-
-            <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'flex-end' }}>
-              <button
-                type="button"
-                onClick={() => setPrivacyModalOpen(false)}
-                className="btn-primary"
-                style={{ fontSize: '0.85rem', padding: '0.5rem 1.2rem' }}
-              >
-                Close Disclosures
-              </button>
-            </div>
+            {activeModal === 'terms' && (
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>
+                    Terms of Service
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={() => setActiveModal(null)}
+                    style={{ background: 'none', border: 'none', color: 'rgba(255, 255, 255, 0.5)', fontSize: '1.4rem', cursor: 'pointer' }}
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.92rem', lineHeight: 1.65, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <p>
+                    All content on this website is for informational purposes regarding Chosen Ltd. and its operating holdings.
+                  </p>
+                  <p>
+                    Nothing contained herein constitutes an offer to purchase or sell securities or a public solicitation of capital.
+                  </p>
+                  <p>
+                    All brand assets, software trademarks, and portfolio identifiers are the exclusive property of Chosen Ltd. and their respective entities.
+                  </p>
+                </div>
+                <div style={{ marginTop: '1.75rem', display: 'flex', justifyContent: 'flex-end' }}>
+                  <button
+                    type="button"
+                    onClick={() => setActiveModal(null)}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      color: '#ffffff',
+                      border: 'none',
+                      borderRadius: '9999px',
+                      padding: '0.55rem 1.4rem',
+                      fontSize: '0.86rem',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
 
-      {/* Responsive Styles */}
+      {/* Responsive Breakpoints */}
       <style>{`
-        @media (max-width: 992px) {
-          .contact-stage {
-            grid-template-columns: 1fr !important;
-            gap: 3.5rem !important;
+        @media (max-width: 840px) {
+          .footer-grid-stage {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 3rem !important;
           }
-          .contact-right-visual {
-            order: -1;
+        }
+        @media (max-width: 520px) {
+          .footer-grid-stage {
+            grid-template-columns: 1fr !important;
+            gap: 2.5rem !important;
           }
         }
       `}</style>

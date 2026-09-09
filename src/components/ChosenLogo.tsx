@@ -26,7 +26,7 @@ export const ChosenLogo: React.FC<{ height?: number; className?: string }> = ({
           stroke="rgba(255, 255, 255, 0.22)" 
           strokeWidth="1" 
         />
-        <circle cx="16" cy="16" r="3" fill="#ffffff" />
+        <circle cx="16" cy="16" r="3" fill="#34d399" />
       </svg>
 
       {/* Pure High-Craft Wordmark */}

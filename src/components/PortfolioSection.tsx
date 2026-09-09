@@ -1,387 +1,353 @@
-import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { CompanyModal, type CompanyDetail } from './CompanyModal';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+
+interface PortfolioCompany {
+  id: string;
+  index: string;
+  badge: string;
+  name: string;
+  subtitle: string;
+  description: string;
+  href: string;
+  icon: (active: boolean) => React.ReactNode;
+}
 
 export const PortfolioSection: React.FC = () => {
-  const [activeId, setActiveId] = useState<'tharun-kumar' | 'riskit'>('tharun-kumar');
-  const [selectedModalCompany, setSelectedModalCompany] = useState<CompanyDetail | null>(null);
-  const [activeFilter, setActiveFilter] = useState<'ALL' | 'STUDIO' | 'CYBER'>('ALL');
+  const [activeCard, setActiveCard] = useState<string>('riskit');
 
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  });
-  const bgY = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
-  const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.05, 1, 1.05]);
-
-  const portfolioData: Record<'tharun-kumar' | 'riskit', CompanyDetail> = {
-    'tharun-kumar': {
-      id: 'tharun-kumar',
-      name: 'Tharun Kumar',
-      category: 'Personal Studio',
-      stage: 'Personal studio',
-      logoSrc: '/logos/tharun-kumar.svg',
-      logoAlt: 'Tharun Kumar',
-      description:
-        'A personal venture studio plus two active bets — one shipping, one still building.',
-      fullThesis:
-        'Tharun Kumar operates as our personal studio. We put capital into early software companies and stay involved without a timeline to sell.',
-      governance: 'Founders run their company',
-      capitalHorizon: 'No fixed exit timeline',
-      headquarters: 'Independent',
-      capabilities: ['Venture Studio', 'Software Engineering', 'Capital Allocation', 'Active Incubation'],
-      href: 'https://tharunkumar.co/',
-    },
-    'riskit': {
+  const companies: PortfolioCompany[] = [
+    {
       id: 'riskit',
+      index: '01',
+      badge: 'Fitness & Money',
       name: 'RiskIT',
-      category: 'Cyber Security',
-      stage: 'Cyber security',
-      logoSrc: '/logos/riskit.svg',
-      logoAlt: 'RiskIT',
-      description:
-        'Vulnerability mapping and protection for corporate networks.',
-      fullThesis:
-        'RiskIT builds security telemetry and vulnerability mitigation tools for businesses. We work with the team on core product engineering and distribution.',
-      governance: 'Founders run their company',
-      capitalHorizon: 'No fixed exit timeline',
-      headquarters: 'Independent',
-      capabilities: ['Cyber Security', 'Vulnerability Mapping', 'Telemetry', 'Cloud Infrastructure'],
+      subtitle: 'Fitness & Financial Accountability App',
+      description: 'A fitness and money platform that ties real financial stakes and rewards to daily workouts, personal health goals, and physical discipline.',
       href: 'https://riskit.co.in/#apply',
-    },
-  };
-
-  const activeCompany = portfolioData[activeId];
-
-  // Number index mapping for huge typography
-  const indexMap: Record<'tharun-kumar' | 'riskit', string> = {
-    'tharun-kumar': '01',
-    'riskit': '02',
-  };
-
-  const bottomColumns = [
-    {
-      num: '01',
-      id: 'tharun-kumar' as const,
-      title: 'THARUN KUMAR',
-      sub: 'PERSONAL STUDIO',
+      icon: (active) => (
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke={active ? '#34d399' : '#ffffff'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          {/* Fitness activity pulse line with high-intensity peak */}
+          <path d="M2 12h4l3-8 4 16 3-8h6" />
+        </svg>
+      ),
     },
     {
-      num: '02',
-      id: 'riskit' as const,
-      title: 'RISKIT',
-      sub: 'CYBER SECURITY',
+      id: 'tharunkumar-media',
+      index: '02',
+      badge: 'Media Company',
+      name: 'Tharun Kumar Media',
+      subtitle: 'Personal Venture Studio & Digital Media',
+      description: 'Founded and led by Tharun Kumar to build, produce, and steward software and media ventures from the ground up.',
+      href: 'https://tharunkumar.co/',
+      icon: (active) => (
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke={active ? '#34d399' : '#ffffff'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <polygon points="10 8 16 12 10 16 10 8" fill={active ? '#34d399' : 'none'} />
+        </svg>
+      ),
     },
   ];
-
-  const handleFilterClick = (filter: 'ALL' | 'STUDIO' | 'CYBER') => {
-    setActiveFilter(filter);
-    if (filter === 'STUDIO') setActiveId('tharun-kumar');
-    if (filter === 'CYBER') setActiveId('riskit');
-  };
 
   return (
     <section
       id="portfolio"
-      ref={sectionRef}
       style={{
+        padding: 'clamp(5.5rem, 9vh, 7.5rem) 0 clamp(4.5rem, 8vh, 6.5rem)',
         position: 'relative',
         backgroundColor: '#07080b',
         overflow: 'hidden',
-        minHeight: '720px',
-        padding: '5rem 0 4rem',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
       }}
     >
-      {/* Background Macro Engraved Money Eye with Parallax Optical Motion */}
-      <motion.div
-        style={{
-          position: 'absolute',
-          inset: '-6%',
-          backgroundImage: 'url(/images/money-eye-widescreen.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center 46%',
-          opacity: 0.55,
-          pointerEvents: 'none',
-          zIndex: 0,
-          filter: 'contrast(1.15) brightness(0.9)',
-          y: bgY,
-          scale: bgScale,
-        }}
-      />
-
-      {/* Atmospheric Vignette & Edge Blending into Pitch Black Canvas */}
+      {/* Ambient background radial glow */}
       <div
         style={{
           position: 'absolute',
-          inset: 0,
-          background:
-            'radial-gradient(circle at 50% 50%, transparent 25%, rgba(7, 8, 11, 0.65) 60%, #07080b 100%), linear-gradient(180deg, #07080b 0%, transparent 18%, transparent 82%, #07080b 100%)',
+          top: '32%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: 'clamp(600px, 60vw, 950px)',
+          height: '450px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(52, 211, 153, 0.08) 0%, rgba(16, 185, 129, 0.03) 45%, transparent 70%)',
+          filter: 'blur(60px)',
           pointerEvents: 'none',
-          zIndex: 1,
+          zIndex: 0,
         }}
       />
 
-      <div className="container" style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '1440px' }}>
-        {/* TOP ROW: Tagline, Huge Number Index, Filter Pills */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            position: 'relative',
-          }}
-        >
-          <div>
-            <div
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                letterSpacing: '0.12em',
-                color: 'var(--text-muted)',
-                textTransform: 'uppercase',
-                marginBottom: '0.4rem',
-              }}
-            >
-              WHERE WE&apos;VE PUT OUR MONEY
-              <span style={{ color: 'rgba(255, 255, 255, 0.25)', margin: '0 0.5rem' }}>/</span>
-              TWO ACTIVE BETS
-            </div>
+      <div
+        className="container"
+        style={{
+          position: 'relative',
+          zIndex: 1,
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: '0 clamp(1.5rem, 5vw, 4rem)',
+        }}
+      >
+        {/* Section Header: Our Portfolio */}
+        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 1.5rem' }}>
+          <h2
+            style={{
+              fontFamily: 'var(--font-heading)',
+              fontSize: 'clamp(2.4rem, 4.5vw, 4rem)',
+              fontWeight: 600,
+              letterSpacing: '-0.03em',
+              color: '#ffffff',
+              lineHeight: 1.12,
+              margin: '0 0 0.75rem',
+            }}
+          >
+            Our Portfolio
+          </h2>
+          <p
+            style={{
+              fontSize: 'clamp(1.05rem, 1.35vw, 1.25rem)',
+              lineHeight: 1.6,
+              color: 'var(--text-secondary)',
+              margin: 0,
+            }}
+          >
+            Companies founded, operated, and backed by Chosen.
+          </p>
+        </div>
 
-            {/* Huge Bold Index Number (Exact from Reference "0°") */}
-            <motion.div
-              key={activeId}
-              initial={{ opacity: 0.7, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.2 }}
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: 'clamp(4rem, 7.5vw, 6.5rem)',
-                fontWeight: 800,
-                lineHeight: 0.92,
-                letterSpacing: '-0.04em',
-                color: '#ffffff',
-                textShadow: '0 4px 24px rgba(0, 0, 0, 0.8)',
-                marginBottom: '1rem',
-              }}
-            >
-              {indexMap[activeId]}°
-            </motion.div>
-
-            {/* Filter Tabs */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-              {(['ALL', 'STUDIO', 'CYBER'] as const).map((filter) => {
-                const isActive = activeFilter === filter;
-                return (
-                  <button
-                    key={filter}
-                    type="button"
-                    onClick={() => handleFilterClick(filter)}
-                    style={{
-                      padding: '0.28rem 0.85rem',
-                      borderRadius: '4px',
-                      border: isActive ? '1px solid #34d399' : '1px solid rgba(255, 255, 255, 0.22)',
-                      background: isActive ? 'rgba(52, 211, 153, 0.12)' : 'rgba(7, 8, 11, 0.4)',
-                      color: isActive ? '#34d399' : '#ffffff',
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '0.68rem',
-                      fontWeight: 600,
-                      letterSpacing: '0.1em',
-                      cursor: 'pointer',
-                      backdropFilter: 'blur(8px)',
-                      transition: 'all 0.15s ease',
-                    }}
-                  >
-                    {filter}
-                  </button>
-                );
-              })}
-            </div>
+        {/* Center Infinity Symbol Pill Badge */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '3rem' }}>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '0.35rem 1.15rem',
+              borderRadius: '9999px',
+              backgroundColor: 'rgba(15, 20, 30, 0.85)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              backdropFilter: 'blur(12px)',
+              color: 'rgba(255, 255, 255, 0.7)',
+              fontSize: '1.25rem',
+              lineHeight: 1,
+              userSelect: 'none',
+            }}
+          >
+            ∞
           </div>
         </div>
 
-        {/* CENTER STAGE: Active Company Editorial Info & Action Buttons */}
+        {/* The 2 Cards Stage (RiskIT & Tharun Kumar Media) */}
         <div
           style={{
-            margin: '3.5rem 0 3rem',
             display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
+            justifyContent: 'center',
+            alignItems: 'stretch',
+            gap: 'clamp(1.75rem, 3.5vw, 3rem)',
             flexWrap: 'wrap',
-            gap: '2rem',
-            position: 'relative',
-            zIndex: 15,
+            maxWidth: '960px',
+            margin: '0 auto',
           }}
         >
-          {/* Active Company Name & Pitch (Completely transparent over money eye) */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeCompany.id}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.2 }}
-              style={{ maxWidth: '620px' }}
-            >
-              <div
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.72rem',
-                  color: 'var(--accent-mint)',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  marginBottom: '0.35rem',
-                }}
-              >
-                {activeCompany.category}
-              </div>
-              <h3
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: 'clamp(1.8rem, 3.2vw, 2.6rem)',
-                  fontWeight: 700,
-                  color: '#ffffff',
-                  letterSpacing: '-0.03em',
-                  lineHeight: 1.15,
-                  margin: '0 0 0.65rem',
-                  textShadow: '0 2px 16px rgba(0, 0, 0, 0.7)',
-                }}
-              >
-                {activeCompany.name}
-              </h3>
-              <p
-                style={{
-                  fontSize: '1.02rem',
-                  lineHeight: 1.55,
-                  color: 'var(--text-secondary)',
-                  margin: 0,
-                  textShadow: '0 2px 10px rgba(0, 0, 0, 0.8)',
-                }}
-              >
-                {activeCompany.description}
-              </p>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Action Buttons */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-            <a
-              href={activeCompany.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary"
-              style={{
-                padding: '0.65rem 1.4rem',
-                fontSize: '0.88rem',
-                borderRadius: '9999px',
-                background: '#ffffff',
-                color: '#07080b',
-                fontWeight: 600,
-                textDecoration: 'none',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.45rem',
-              }}
-            >
-              Visit {activeCompany.name} ↗
-            </a>
-
-            <button
-              type="button"
-              onClick={() => setSelectedModalCompany(activeCompany)}
-              className="btn-secondary"
-              style={{
-                padding: '0.65rem 1.4rem',
-                fontSize: '0.88rem',
-                borderRadius: '9999px',
-                background: 'rgba(7, 8, 11, 0.5)',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              What We&apos;re Building
-            </button>
-          </div>
-        </div>
-
-        {/* BOTTOM ROW: Transparent Columns (Only the 2 invested ventures) */}
-        <div
-          style={{
-            borderTop: '1px solid rgba(255, 255, 255, 0.12)',
-            paddingTop: '1.5rem',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '1.5rem',
-            position: 'relative',
-          }}
-        >
-          {bottomColumns.map((col) => {
-            const isSelected = col.id === activeId;
+          {companies.map((c) => {
+            const isActive = activeCard === c.id;
 
             return (
-              <div
-                key={col.num}
-                onClick={() => setActiveId(col.id)}
+              <motion.div
+                key={c.id}
+                onClick={() => setActiveCard(c.id)}
+                whileHover={{ y: -6, scale: 1.02 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 style={{
+                  flex: '1 1 380px',
+                  maxWidth: '450px',
+                  minHeight: '480px',
+                  borderRadius: '24px',
+                  background: isActive
+                    ? 'linear-gradient(180deg, rgba(16, 22, 32, 0.95) 0%, rgba(9, 12, 18, 0.98) 100%)'
+                    : 'linear-gradient(180deg, rgba(13, 16, 24, 0.75) 0%, rgba(8, 10, 15, 0.92) 100%)',
+                  border: isActive
+                    ? '1.5px solid rgba(52, 211, 153, 0.5)'
+                    : '1px solid rgba(255, 255, 255, 0.09)',
+                  boxShadow: isActive
+                    ? '0 28px 56px -12px rgba(0, 0, 0, 0.88), 0 0 40px rgba(52, 211, 153, 0.16)'
+                    : '0 16px 36px -8px rgba(0, 0, 0, 0.7)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  padding: 'clamp(2rem, 3.5vw, 2.5rem)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  position: 'relative',
+                  overflow: 'hidden',
                   cursor: 'pointer',
-                  padding: '0.75rem 1rem',
-                  borderRadius: '6px',
-                  background: isSelected ? 'rgba(52, 211, 153, 0.08)' : 'transparent',
-                  border: isSelected ? '1px solid rgba(52, 211, 153, 0.3)' : '1px solid transparent',
-                  transition: 'all 0.2s ease',
+                  transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
                 }}
               >
+                {/* Ambient glow inside active card */}
+                {isActive && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '-20%',
+                      right: '-20%',
+                      width: '180px',
+                      height: '180px',
+                      borderRadius: '50%',
+                      background: 'radial-gradient(circle, rgba(52, 211, 153, 0.2) 0%, transparent 70%)',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                )}
+
+                {/* Top Row: Category Badge & Index Indicator */}
                 <div
                   style={{
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: '1.25rem',
-                    fontWeight: 700,
-                    color: isSelected ? '#34d399' : 'rgba(255, 255, 255, 0.85)',
-                    marginBottom: '0.25rem',
-                    letterSpacing: '-0.02em',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    position: 'relative',
+                    zIndex: 2,
                   }}
                 >
-                  {col.num}
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-heading)',
+                      fontSize: '0.88rem',
+                      fontWeight: 600,
+                      color: isActive ? '#34d399' : 'rgba(255, 255, 255, 0.65)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.06em',
+                    }}
+                  >
+                    {c.badge}
+                  </span>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '0.78rem',
+                        color: 'var(--text-muted)',
+                      }}
+                    >
+                      {c.index}
+                    </span>
+                    <div
+                      style={{
+                        width: '8px',
+                        height: '8px',
+                        borderRadius: '50%',
+                        backgroundColor: isActive ? '#34d399' : 'rgba(255, 255, 255, 0.25)',
+                        boxShadow: isActive ? '0 0 10px #34d399' : 'none',
+                        transition: 'all 0.3s ease',
+                      }}
+                    />
+                  </div>
                 </div>
+
+                {/* Center Emblem Visual */}
                 <div
                   style={{
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: '0.84rem',
-                    fontWeight: 600,
-                    color: '#ffffff',
-                    letterSpacing: '-0.01em',
-                    lineHeight: 1.3,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    zIndex: 2,
+                    margin: '2.5rem 0',
                   }}
                 >
-                  {col.title}
+                  <div
+                    style={{
+                      width: '76px',
+                      height: '76px',
+                      borderRadius: '50%',
+                      background: isActive ? 'rgba(52, 211, 153, 0.09)' : 'rgba(255, 255, 255, 0.03)',
+                      border: isActive ? '1.5px solid rgba(52, 211, 153, 0.4)' : '1px solid rgba(255, 255, 255, 0.08)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: isActive ? '0 0 30px rgba(52, 211, 153, 0.18)' : 'none',
+                      transition: 'all 0.3s ease',
+                    }}
+                  >
+                    {c.icon(isActive)}
+                  </div>
                 </div>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.68rem',
-                    color: isSelected ? 'var(--accent-mint)' : 'var(--text-muted)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
-                    marginTop: '0.15rem',
-                  }}
-                >
-                  {col.sub}
+
+                {/* Bottom Content: Name, Subtitle, Description & Direct Link */}
+                <div style={{ position: 'relative', zIndex: 2 }}>
+                  <h3
+                    style={{
+                      fontFamily: 'var(--font-heading)',
+                      fontSize: 'clamp(1.6rem, 2.2vw, 2rem)',
+                      fontWeight: 700,
+                      color: '#ffffff',
+                      letterSpacing: '-0.02em',
+                      margin: '0 0 0.4rem',
+                      lineHeight: 1.15,
+                    }}
+                  >
+                    {c.name}
+                  </h3>
+
+                  <div
+                    style={{
+                      fontSize: '0.94rem',
+                      color: isActive ? 'rgba(255, 255, 255, 0.8)' : 'var(--text-muted)',
+                      fontWeight: 500,
+                      marginBottom: '0.75rem',
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {c.subtitle}
+                  </div>
+
+                  <p
+                    style={{
+                      fontSize: '0.92rem',
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      lineHeight: 1.6,
+                      margin: '0 0 1.5rem',
+                    }}
+                  >
+                    {c.description}
+                  </p>
+
+                  <a
+                    href={c.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.45rem',
+                      fontFamily: 'var(--font-heading)',
+                      fontSize: '0.9rem',
+                      fontWeight: 600,
+                      color: '#34d399',
+                      textDecoration: 'none',
+                      transition: 'transform 0.2s ease, opacity 0.2s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateX(3px)';
+                      e.currentTarget.style.opacity = '0.85';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateX(0)';
+                      e.currentTarget.style.opacity = '1';
+                    }}
+                  >
+                    Visit Website
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                      <path d="M4 12L12 4M12 4H6M12 4V10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </a>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
       </div>
-
-      {/* Intelligence Brief Modal */}
-      {selectedModalCompany && (
-        <CompanyModal
-          company={selectedModalCompany}
-          onClose={() => setSelectedModalCompany(null)}
-        />
-      )}
     </section>
   );
 };
